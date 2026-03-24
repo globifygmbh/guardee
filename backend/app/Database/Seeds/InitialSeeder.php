@@ -74,5 +74,29 @@ class InitialSeeder extends Seeder
             'engagement_rate' => 3.5,
             'created_at' => date('Y-m-d H:i:s'),
         ]);
+
+        // Seed demo influencer manager
+        $this->db->table('users')->insert([
+            'role_id' => 4,
+            'email' => 'manager@demo.com',
+            'password' => password_hash('demo123', PASSWORD_BCRYPT),
+            'first_name' => 'Demo',
+            'last_name' => 'Manager',
+            'status' => 'active',
+            'email_verified_at' => date('Y-m-d H:i:s'),
+            'created_at' => date('Y-m-d H:i:s'),
+        ]);
+
+        // Seed demo agency
+        $this->db->table('users')->insert([
+            'role_id' => 5,
+            'email' => 'agency@demo.com',
+            'password' => password_hash('demo123', PASSWORD_BCRYPT),
+            'first_name' => 'Demo',
+            'last_name' => 'Agency',
+            'status' => 'active',
+            'email_verified_at' => date('Y-m-d H:i:s'),
+            'created_at' => date('Y-m-d H:i:s'),
+        ]);
     }
 }

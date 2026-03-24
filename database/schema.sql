@@ -226,3 +226,37 @@ CREATE TABLE `notifications` (
   INDEX `idx_notifications_user` (`user_id`),
   INDEX `idx_notifications_unread` (`user_id`, `is_read`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- ============================================
+-- SEED DATA - Test Users
+-- Password for all: demo123 (bcrypt)
+-- ============================================
+
+-- BCrypt hash of 'demo123'
+SET @pw = '$2y$12$o9VYg.ciWMfEX7uMQxJbAOWKuL5kwPdNqglT/oCiOt2O/jC10mpw2';
+
+-- 1. Admin
+INSERT INTO `users` (`id`, `role_id`, `email`, `password`, `first_name`, `last_name`, `status`, `email_verified_at`, `created_at`) VALUES
+(1, 1, 'admin@guardee.io', @pw, 'Platform', 'Admin', 'active', NOW(), NOW());
+
+-- 2. Brand
+INSERT INTO `users` (`id`, `role_id`, `email`, `password`, `first_name`, `last_name`, `status`, `email_verified_at`, `created_at`) VALUES
+(2, 2, 'brand@demo.com', @pw, 'Demo', 'Brand', 'active', NOW(), NOW());
+
+INSERT INTO `brand_profiles` (`user_id`, `company_name`, `industry`, `website`, `created_at`) VALUES
+(2, 'Demo Brand GmbH', 'Fashion', 'https://demo-brand.com', NOW());
+
+-- 3. Influencer
+INSERT INTO `users` (`id`, `role_id`, `email`, `password`, `first_name`, `last_name`, `status`, `email_verified_at`, `created_at`) VALUES
+(3, 3, 'influencer@demo.com', @pw, 'Demo', 'Creator', 'active', NOW(), NOW());
+
+INSERT INTO `influencer_profiles` (`user_id`, `display_name`, `bio`, `niche`, `country`, `instagram_handle`, `followers_count`, `engagement_rate`, `created_at`) VALUES
+(3, 'DemoCreator', 'Lifestyle & Fashion Creator', 'Fashion', 'DE', '@democreator', 150000, 3.50, NOW());
+
+-- 4. Influencer Manager
+INSERT INTO `users` (`id`, `role_id`, `email`, `password`, `first_name`, `last_name`, `status`, `email_verified_at`, `created_at`) VALUES
+(4, 4, 'manager@demo.com', @pw, 'Demo', 'Manager', 'active', NOW(), NOW());
+
+-- 5. Agency
+INSERT INTO `users` (`id`, `role_id`, `email`, `password`, `first_name`, `last_name`, `status`, `email_verified_at`, `created_at`) VALUES
+(5, 5, 'agency@demo.com', @pw, 'Demo', 'Agency', 'active', NOW(), NOW());
