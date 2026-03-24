@@ -1,13 +1,6 @@
 -- ============================================
 -- GUARDEE PLATFORM - Database Schema
--- MySQL 8+ / utf8mb4
 -- ============================================
-
-CREATE DATABASE IF NOT EXISTS `guardee`
-  CHARACTER SET utf8
-  COLLATE utf8_general_ci;
-
-USE `guardee`;
 
 -- --------------------------------------------
 -- 1. ROLES
