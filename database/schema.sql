@@ -4,8 +4,8 @@
 -- ============================================
 
 CREATE DATABASE IF NOT EXISTS `guardee`
-  CHARACTER SET utf8mb4
-  COLLATE utf8mb4_unicode_ci;
+  CHARACTER SET utf8
+  COLLATE utf8_general_ci;
 
 USE `guardee`;
 
@@ -18,7 +18,7 @@ CREATE TABLE `roles` (
   `label` VARCHAR(100) NOT NULL,
   `created_at` DATETIME DEFAULT NULL,
   `updated_at` DATETIME DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `roles` (`id`, `name`, `label`, `created_at`) VALUES
 (1, 'admin', 'Platform Admin', NOW()),
@@ -49,7 +49,7 @@ CREATE TABLE `users` (
   INDEX `idx_users_email` (`email`),
   INDEX `idx_users_role` (`role_id`),
   INDEX `idx_users_status` (`status`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------
 -- 3. INFLUENCER PROFILES
@@ -72,7 +72,7 @@ CREATE TABLE `influencer_profiles` (
   FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE CASCADE ON DELETE CASCADE,
   INDEX `idx_influencer_niche` (`niche`),
   INDEX `idx_influencer_country` (`country`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------
 -- 4. BRAND PROFILES
@@ -89,7 +89,7 @@ CREATE TABLE `brand_profiles` (
   `created_at` DATETIME DEFAULT NULL,
   `updated_at` DATETIME DEFAULT NULL,
   FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------
 -- 5. CAMPAIGNS
@@ -116,7 +116,7 @@ CREATE TABLE `campaigns` (
   FOREIGN KEY (`created_by`) REFERENCES `users`(`id`) ON UPDATE CASCADE ON DELETE RESTRICT,
   INDEX `idx_campaigns_status` (`status`),
   INDEX `idx_campaigns_brand` (`brand_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------
 -- 6. CAMPAIGN INVITATIONS
@@ -135,7 +135,7 @@ CREATE TABLE `campaign_invitations` (
   FOREIGN KEY (`influencer_id`) REFERENCES `influencer_profiles`(`id`) ON UPDATE CASCADE ON DELETE CASCADE,
   FOREIGN KEY (`invited_by`) REFERENCES `users`(`id`) ON UPDATE CASCADE ON DELETE RESTRICT,
   UNIQUE KEY `uk_campaign_influencer` (`campaign_id`, `influencer_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------
 -- 7. OFFERS
@@ -158,7 +158,7 @@ CREATE TABLE `offers` (
   FOREIGN KEY (`invitation_id`) REFERENCES `campaign_invitations`(`id`) ON UPDATE CASCADE ON DELETE CASCADE,
   FOREIGN KEY (`brand_id`) REFERENCES `brand_profiles`(`id`) ON UPDATE CASCADE ON DELETE RESTRICT,
   FOREIGN KEY (`influencer_id`) REFERENCES `influencer_profiles`(`id`) ON UPDATE CASCADE ON DELETE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------
 -- 8. ASSETS (Content Files)
@@ -183,7 +183,7 @@ CREATE TABLE `assets` (
   FOREIGN KEY (`uploaded_by`) REFERENCES `users`(`id`) ON UPDATE CASCADE ON DELETE RESTRICT,
   INDEX `idx_assets_campaign` (`campaign_id`),
   INDEX `idx_assets_status` (`status`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------
 -- 9. APPROVALS (polymorphic)
@@ -198,7 +198,7 @@ CREATE TABLE `approvals` (
   `created_at` DATETIME DEFAULT NULL,
   FOREIGN KEY (`approved_by`) REFERENCES `users`(`id`) ON UPDATE CASCADE ON DELETE RESTRICT,
   INDEX `idx_approvals_entity` (`approvable_type`, `approvable_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------
 -- 10. ACTIVITY LOGS
@@ -214,7 +214,7 @@ CREATE TABLE `activity_logs` (
   `created_at` DATETIME DEFAULT NULL,
   INDEX `idx_logs_user` (`user_id`),
   INDEX `idx_logs_entity` (`entity_type`, `entity_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------
 -- 11. NOTIFICATIONS
@@ -232,4 +232,4 @@ CREATE TABLE `notifications` (
   FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE CASCADE ON DELETE CASCADE,
   INDEX `idx_notifications_user` (`user_id`),
   INDEX `idx_notifications_unread` (`user_id`, `is_read`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;

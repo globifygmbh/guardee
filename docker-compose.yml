@@ -8,8 +8,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: guardee
-      MYSQL_CHARSET: utf8mb4
-      MYSQL_COLLATION: utf8mb4_unicode_ci
+      MYSQL_CHARSET: utf8
+      MYSQL_COLLATION: utf8_unicode_ci
     ports:
       - "3306:3306"
     volumes:
