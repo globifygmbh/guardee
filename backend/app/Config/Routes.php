@@ -5,55 +5,53 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'Home::index');
 
-$routes->group('api', function ($routes) {
-    // Public
-    $routes->post('auth/login', 'Api\AuthController::login');
-    $routes->post('auth/register', 'Api\AuthController::register');
+// Public
+$routes->get('/', 'AuthController::loginForm');
+$routes->get('login', 'AuthController::loginForm');
+$routes->post('login', 'AuthController::login');
+$routes->get('register', 'AuthController::registerForm');
+$routes->post('register', 'AuthController::register');
+$routes->get('logout', 'AuthController::logout');
 
-    // Protected routes
-    $routes->group('', ['filter' => 'auth'], function ($routes) {
-        $routes->get('auth/me', 'Api\AuthController::me');
+// Protected
+$routes->group('', ['filter' => 'auth'], static function ($routes) {
+    $routes->get('dashboard', 'DashboardController::index');
 
-        // Campaigns
-        $routes->get('campaigns', 'Api\CampaignController::index');
-        $routes->get('campaigns/pending', 'Api\CampaignController::pending');
-        $routes->get('campaigns/(:num)', 'Api\CampaignController::show/$1');
-        $routes->post('campaigns', 'Api\CampaignController::create');
-        $routes->put('campaigns/(:num)', 'Api\CampaignController::update/$1');
-        $routes->post('campaigns/(:num)/approve', 'Api\CampaignController::approve/$1');
-        $routes->post('campaigns/(:num)/reject', 'Api\CampaignController::reject/$1');
+    // Campaigns
+    $routes->get('campaigns', 'CampaignController::index');
+    $routes->get('campaigns/create', 'CampaignController::create');
+    $routes->post('campaigns/store', 'CampaignController::store');
+    $routes->get('campaigns/pending', 'CampaignController::pending');
+    $routes->get('campaigns/(:num)', 'CampaignController::show/$1');
+    $routes->post('campaigns/(:num)/update', 'CampaignController::update/$1');
+    $routes->post('campaigns/(:num)/approve', 'CampaignController::approve/$1');
+    $routes->post('campaigns/(:num)/reject', 'CampaignController::reject/$1');
 
-        // Invitations
-        $routes->get('campaigns/(:num)/invitations', 'Api\InvitationController::byCampaign/$1');
-        $routes->post('invitations', 'Api\InvitationController::invite');
-        $routes->post('invitations/(:num)/respond', 'Api\InvitationController::respond/$1');
-        $routes->get('invitations/mine', 'Api\InvitationController::myInvitations');
+    // Invitations
+    $routes->get('invitations', 'InvitationController::index');
+    $routes->post('invitations/invite', 'InvitationController::invite');
+    $routes->post('invitations/(:num)/respond', 'InvitationController::respond/$1');
 
-        // Offers
-        $routes->post('offers', 'Api\OfferController::create');
-        $routes->put('offers/(:num)', 'Api\OfferController::update/$1');
-        $routes->post('offers/(:num)/accept', 'Api\OfferController::accept/$1');
-        $routes->post('offers/(:num)/decline', 'Api\OfferController::decline/$1');
-        $routes->post('offers/(:num)/accept-terms', 'Api\OfferController::acceptTerms/$1');
-        $routes->get('invitations/(:num)/offer', 'Api\OfferController::byInvitation/$1');
+    // Offers
+    $routes->get('offers/(:num)', 'OfferController::show/$1');
+    $routes->post('offers/create', 'OfferController::create');
+    $routes->post('offers/(:num)/update', 'OfferController::update/$1');
+    $routes->post('offers/(:num)/accept', 'OfferController::accept/$1');
+    $routes->post('offers/(:num)/decline', 'OfferController::decline/$1');
+    $routes->post('offers/(:num)/accept-terms', 'OfferController::acceptTerms/$1');
 
-        // Assets
-        $routes->post('assets/upload', 'Api\AssetController::upload');
-        $routes->get('campaigns/(:num)/assets', 'Api\AssetController::byCampaign/$1');
-        $routes->post('assets/(:num)/approve', 'Api\AssetController::approve/$1');
-        $routes->post('assets/(:num)/request-revision', 'Api\AssetController::requestRevision/$1');
-        $routes->get('assets/(:num)/download', 'Api\AssetController::download/$1');
+    // Assets
+    $routes->post('assets/upload', 'AssetController::upload');
+    $routes->post('assets/(:num)/approve', 'AssetController::approve/$1');
+    $routes->post('assets/(:num)/request-revision', 'AssetController::requestRevision/$1');
+    $routes->get('assets/(:num)/download', 'AssetController::download/$1');
 
-        // Users
-        $routes->get('users/influencers', 'Api\UserController::influencers');
-        $routes->get('users/brands', 'Api\UserController::brands');
-        $routes->get('users/(:num)', 'Api\UserController::show/$1');
+    // Users (admin)
+    $routes->get('users', 'UserController::index');
+    $routes->get('users/influencers', 'UserController::influencers');
 
-        // Notifications
-        $routes->get('notifications', 'Api\NotificationController::index');
-        $routes->put('notifications/(:num)/read', 'Api\NotificationController::read/$1');
-        $routes->get('notifications/unread-count', 'Api\NotificationController::unreadCount');
-    });
+    // Notifications
+    $routes->get('notifications', 'NotificationController::index');
+    $routes->post('notifications/(:num)/read', 'NotificationController::markRead/$1');
 });
