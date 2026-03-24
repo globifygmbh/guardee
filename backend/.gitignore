@@ -84,7 +84,7 @@ php_errors.log
 #-------------------------
 # Composer
 #-------------------------
-vendor/
+# vendor/ - INCLUDED for no-install server deploy
 
 #-------------------------
 # IDE / Development Files
